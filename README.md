@@ -1,14 +1,31 @@
 # EC2-UpdateRoute53
+
 Updates A route53 record upon EC2 Startup
 
-Paste the below code snippet into InstanceSettings - View/Change User Data
-Update the variables at the top of updateRoute53.sh to there correpsonding values for your use case.
-Copy the contents of the shell script and replace the "PASTE HERE" line inside View/Change User Data
+## Step 1
 
+Ensure that the awscli is installed on the Instance.
+
+## Step 2
+
+Create a new EC2 IAM role and give it the permission **AmazonRoute53FullAccess**
+Under the instances actions select InstanceSettings-Attach/Replace IAM Role and attach the IAM role made above to the instance.
+
+## Step 3
+
+Under the instances actions select InstanceSettings-View/Change User Data and paste the below code snippet into the box that appears.
+
+## Step 4
+
+Update the variables at the top of the bash section in the code you pasted in the step above. The 2 variables that need changing are.
+
+- HOSTED_ZONE_ID - This is a unique id for the domain
+- RECORD_SET_NAME - This is the URL
+
+```
 Content-Type: multipart/mixed; boundary="//"
 MIME-Version: 1.0
 
-```
 --//
 Content-Type: text/cloud-config; charset="us-ascii"
 MIME-Version: 1.0
@@ -26,6 +43,35 @@ Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
- ===============================PASTE HERE============================
+HOSTED_ZONE_ID=REPLACE THIS
+RECORD_SET_NAME=example.url.co.uk 
+
+IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+
+TMPFILE=$(mktemp /tmp/temporary-file.XXXXXXXX)
+cat > ${TMPFILE} << EOF
+        {
+          "Comment": "Updating Value in route53 recordset",
+          "Changes": [
+            {
+              "Action": "UPSERT",
+              "ResourceRecordSet": {
+                "Name": "$RECORD_SET_NAME",
+                "Type": "A",
+                "TTL":60,
+                "ResourceRecords": [
+                  {
+                    "Value": "$IP"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+EOF
+
+aws route53 change-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --change-batch file://"$TMPFILE"
+
+rm $TMPFILE
 --//
 ```
