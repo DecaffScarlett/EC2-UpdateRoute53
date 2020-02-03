@@ -1,5 +1,5 @@
-HOSTED_ZONE_ID=REPLACE
-RECORD_SET_NAME=REPLACE
+HOSTED_ZONE_ID=REPLACE THIS
+RECORD_SET_NAME=example.url.co.uk
 
 IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
