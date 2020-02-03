@@ -1,6 +1,7 @@
 # EC2-UpdateRoute53
 
-EC2-UpdateRoute53 is a simple project that allows an EC2 instance to update a specific Route53 record set to point to the instances container on every startup. This stops the need of an elastic ip if a Route53 Domain is owned. Which can save money due the cost of an Elastic IP if the instance is not currently running.
+EC2-UpdateRoute53 is a simple project that allows an EC2 instance to update a specific Route53 record set to point to the instances IP on every startup.  
+This stops the need of an elastic ip if a Route53 Domain is owned, which can save money due the cost of an Elastic IP if the instance is not currently running.
 
 ## How to install
 
