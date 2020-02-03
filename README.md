@@ -24,7 +24,7 @@ Under the instances actions select InstanceSettings-View/Change User Data and pa
 
 Update the variables at the top of the bash section in the code you pasted in the step above. The 2 variables that need changing are.
 
-- HOSTED_ZONE_ID - This is a unique id for the domain
+- HOSTED_ZONE_ID - This is the unique id for the domain
 - RECORD_SET_NAME - This is the URL
 
 ```
