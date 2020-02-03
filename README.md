@@ -7,7 +7,8 @@ This stops the need of an elastic ip if a Route53 Domain is owned, which can sav
 
 ### Step 1
 
-Ensure that the awscli is installed on the Instance.
+Ensure that the AWS CLI is installed on the Instance.  
+[Tutorial](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 ### Step 2
 
